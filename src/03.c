@@ -1,6 +1,7 @@
 // 单链表反转
 // 了解实现思想之后，不一定能写出具体的代码
 // 还是要多看，多想，多敲
+// 反转方法：迭代反转、递归反转、头插法反转、就地逆置反转
 
 #include "stdio.h"
 #include "stdlib.h"
@@ -74,7 +75,7 @@ link *iteration_reverse(link *head) {
         // 第二步 middle的指针域由end改为begin
         middle->next = begin;
 
-        // 终止条件，所有的节点翻转完毕
+        // 终止条件，所有的节点反转完毕
         if (end == NULL) {
             break;
         }
@@ -84,7 +85,7 @@ link *iteration_reverse(link *head) {
         middle = end;
         end = end->next;
     }
-    // 通过指针，返回翻转后的单链表
+    // 通过指针，返回反转后的单链表
     head = middle;
     return head;
 }
