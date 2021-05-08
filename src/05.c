@@ -1,4 +1,8 @@
 // 静态链表
+// 静态链表的实现：可以理解成将动态链表存放节点的空间限制在一个定长的节点数组中
+// 静态链表的好处：
+//      1. （线性表的好处）可以用数组下标随机访问元素，快速访问
+//      2. （动态链表的好处）增删节点之后不需要移动其他节点，快速增删节点
 #include "stdio.h"
 #include "stdlib.h"
 
@@ -34,29 +38,46 @@ void deleteArr(component *array, int body, int num);
 
 int selectElem(component *array, int body, int num);
 
+void amendElem(component *array, int body, int oldNum, int newNum);
+
 int main() {
     printf("----申请一块内存-----\n");
     component array[maxSize];
     displayArrLiteralValue(array);
 
+    printf("\n");
     printf("----构建备用链表-----\n");
     reserveArr(array);
     displayArrLiteralValue(array);
 
+    printf("\n");
     printf("----初始化链表-----\n");
     int body = initArr(array);
     displayArrLiteralValue(array);
 
+    printf("\n");
     printf("----打印链表-----\n");
     displayArr(array, body);
 
+    printf("\n");
     printf("----在位置2插入20-----\n");
     insertArr(array, body, 2, 20);
     displayArr(array, body);
     displayArrLiteralValue(array);
 
+    printf("\n");
     printf("----删除元素20-----\n");
     deleteArr(array, body, 20);
+    displayArr(array, body);
+    displayArrLiteralValue(array);
+
+    printf("\n");
+    printf("----查找元素2的位置-----\n");
+    printf("2所在的位置是：%d\n", selectElem(array, body, 2));
+
+    printf("\n");
+    printf("----将2修改成200-----\n");
+    amendElem(array,body,2,200);
     displayArr(array, body);
     displayArrLiteralValue(array);
     return 0;
@@ -101,6 +122,26 @@ void freeArr(component *array, int k) {
     array[k].cur = array[0].cur;
     array[k].data = -1;
     array[0].cur = k;
+}
+
+int selectElem(component *array, int body, int num) {
+    int tBody = body;
+    while (array[tBody].cur != 0) {
+        if (array[tBody].data == num) {
+            return tBody;
+        }
+        tBody = array[tBody].cur;
+    }
+    return -1;
+}
+
+void amendElem(component *array, int body, int oldNum, int newNum) {
+    int index = selectElem(array, body, oldNum);
+    if (index == -1) {
+        printf("静态链表中不存在要更的元素%d\n", oldNum);
+        return;
+    }
+    array[index].data = newNum;
 }
 
 int initArr(component *array) {
